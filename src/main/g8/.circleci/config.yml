@@ -8,7 +8,7 @@ jobs:
     - checkout
     - run:
         name: Save Build Number
-        command: echo $CIRCLE_BUILD_NUM > .publish_version
+        command: echo $$CIRCLE_BUILD_NUM > .publish_version
     - save_cache:
         key: {{ .Environment.CIRCLE_PROJECT_REPONAME }}-version-cache-{{ .Environment.CIRCLE_WORKFLOW_ID }}
         paths:
@@ -20,7 +20,7 @@ jobs:
     - run:
         name: Test
         command: |
-          export CIRCLE_BUILD_NUM=$(cat .publish_version)
+          export CIRCLE_BUILD_NUM=$$(cat .publish_version)
           sbt test:compile test
     - store_test_results:
         path: target/test-reports/
